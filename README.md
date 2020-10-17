@@ -1,10 +1,11 @@
-# Base
-Base Project
-    One module
-    OpenJDK 13
-    Gradle
-    IntelliJ
+# kata-template-kotlin
 
-Before
--[x] Gradle, IntelliJ, OpenJDK
+A simple template for starting quickly with a kata.
+
+Includes: 
+
+* Gradle
+* JUnit5
+* AssertJ
+
 
