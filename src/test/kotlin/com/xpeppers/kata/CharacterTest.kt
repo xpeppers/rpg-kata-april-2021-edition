@@ -22,9 +22,9 @@ class CharacterTest {
 
     @Test
     fun `a Character can heal itself`() {
-        character.dealDamageTo(target, 100);
+        character.dealDamageTo(target, 100)
 
-        { target.heal(50) }.mustIncreaseBy(50) { target.health }
+        action { target.heal(50) }.increasesBy(50) { target.health }
     }
 
     @Test
