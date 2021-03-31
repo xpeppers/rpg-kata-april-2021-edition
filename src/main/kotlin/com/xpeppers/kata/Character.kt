@@ -9,8 +9,7 @@ class Character(private val level: Int = 1, private val maxAttackRange: Int = 0)
     var health = INITIAL_HEALTH
         private set
 
-    var faction: Faction? = null
-        private set
+    private var faction: Faction? = null
 
     fun dealDamageTo(target: Character, damage: Int, distanceFromTarget: Int = 0) {
         if (faction != null && faction == target.faction) return
