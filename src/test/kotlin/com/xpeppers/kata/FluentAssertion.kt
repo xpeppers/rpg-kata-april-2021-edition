@@ -16,3 +16,10 @@ class FluentAssertion(private val action: () -> Unit) {
 
     fun doesNotChange(subject: () -> Int) = increasesBy(0, subject)
 }
+
+fun (() -> Unit).mustIncreaseBy(amount: Int, subject: () -> Int) {
+    val amountBefore = subject()
+    this()
+    val amountAfter = subject()
+    assertThat(amountAfter).isEqualTo(amountBefore + amount)
+}
