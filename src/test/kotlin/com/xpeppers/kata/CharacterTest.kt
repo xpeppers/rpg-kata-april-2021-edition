@@ -4,17 +4,17 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class CharacterTest {
-    private val character = Character()
+    private val attacker = Character()
     private val target = Character()
 
     @Test
     fun `Characters can deal damage to Characters`() {
-        action { character.dealDamageTo(target, 100) }.decreasesBy(100) { target.health }
+        action { attacker.dealDamageTo(target, 100) }.decreasesBy(100) { target.health }
     }
 
     @Test
     fun `when damage received exceeds current Health, Health becomes 0 and the character dies`() {
-        character.dealDamageTo(target, target.health + 1)
+        attacker.dealDamageTo(target, target.health + 1)
 
         assertThat(target.health).isEqualTo(0)
         assertThat(target.isDead).isTrue()
@@ -22,7 +22,7 @@ class CharacterTest {
 
     @Test
     fun `a Character can heal itself`() {
-        character.dealDamageTo(target, 100)
+        attacker.dealDamageTo(target, 100)
 
         action { target.heal(50) }.increasesBy(50) { target.health }
     }
@@ -34,7 +34,7 @@ class CharacterTest {
 
     @Test
     fun `dead characters cannot heal themselves`() {
-        character.dealDamageTo(target, target.health)
+        attacker.dealDamageTo(target, target.health)
 
         target.heal(1)
 
@@ -43,7 +43,7 @@ class CharacterTest {
 
     @Test
     fun `a Character cannot deal damage to itself`() {
-        action { character.dealDamageTo(character, 1) }.doesNotChange { character.health }
+        action { attacker.dealDamageTo(attacker, 1) }.doesNotChange { attacker.health }
     }
 
     @Test
