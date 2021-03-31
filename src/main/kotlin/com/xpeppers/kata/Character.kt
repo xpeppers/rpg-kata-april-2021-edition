@@ -9,7 +9,11 @@ class Character(private val level: Int = 1, private val maxAttackRange: Int = 0)
     var health = INITIAL_HEALTH
         private set
 
+    var faction: Faction? = null
+        private set
+
     fun dealDamageTo(target: Character, damage: Int, distanceFromTarget: Int = 0) {
+        if (faction != null && faction == target.faction) return
         if (target != this && isTargetInRange(distanceFromTarget)) {
             val actualDamage = computeActualDamage(damage, target)
             target.receiveDamage(actualDamage)
@@ -37,6 +41,10 @@ class Character(private val level: Int = 1, private val maxAttackRange: Int = 0)
 
     private fun restoreHealth(healingAmount: Int) {
         health = min(health + healingAmount, INITIAL_HEALTH)
+    }
+
+    fun joinFaction(faction: Faction) {
+        this.faction = faction
     }
 
     companion object {
