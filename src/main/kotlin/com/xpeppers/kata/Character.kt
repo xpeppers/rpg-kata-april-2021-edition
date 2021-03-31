@@ -9,15 +9,17 @@ class Character(private val level: Int = 1, private val maxAttackRange: Int = 0)
     var health = INITIAL_HEALTH
         private set
 
-    private var faction: Faction? = null
+    private var factions = mutableSetOf<Faction>()
 
     fun dealDamageTo(target: Character, damage: Int, distanceFromTarget: Int = 0) {
-        if (faction != null && faction == target.faction) return
+        if (isAllyOf(target)) return
         if (target != this && isTargetInRange(distanceFromTarget)) {
             val actualDamage = computeActualDamage(damage, target)
             target.receiveDamage(actualDamage)
         }
     }
+
+    private fun isAllyOf(target: Character) = factions.intersect(target.factions).isNotEmpty()
 
     private fun isTargetInRange(distanceFromTarget: Int) = distanceFromTarget <= maxAttackRange
 
@@ -43,7 +45,7 @@ class Character(private val level: Int = 1, private val maxAttackRange: Int = 0)
     }
 
     fun joinFaction(faction: Faction) {
-        this.faction = faction
+        factions.add(faction)
     }
 
     companion object {

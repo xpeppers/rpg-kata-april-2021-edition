@@ -105,4 +105,15 @@ class CharacterTest {
 
         action { attacker.dealDamageTo(target, 100) }.decreasesBy(100) { target.health }
     }
+
+    @Test
+    fun `a character cannot deal damage to a character belonging to a shared faction`() {
+        val faction = Faction()
+        val anotherFaction = Faction()
+        attacker.joinFaction(faction)
+        target.joinFaction(faction)
+        target.joinFaction(anotherFaction)
+
+        action { attacker.dealDamageTo(target, 100) }.doesNotChange { target.health }
+    }
 }
