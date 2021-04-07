@@ -1,11 +1,2 @@
-# kata-template-kotlin
-
-A simple template for starting quickly with a kata.
-
-Includes: 
-
-* Gradle
-* JUnit5
-* AssertJ
-
-
+# RPG game kata
+https://github.com/xpepper/rpg-game-kata
