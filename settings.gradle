@@ -10,5 +10,5 @@ pluginManagement {
         }
     }
 }
-rootProject.name = 'kata-template-kotlin'
+rootProject.name = 'rpg-kata-april-2021-edition'
 
