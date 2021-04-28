@@ -12,11 +12,12 @@ class Character(private val level: Int = 1, private val maxAttackRange: Int = 0)
     private var factions = mutableSetOf<Faction>()
 
     fun dealDamageTo(target: Character, damage: Int, distanceFromTarget: Int = 0) {
-        if (isAllyOf(target)) return
-        if (target != this && isTargetInRange(distanceFromTarget)) {
-            val actualDamage = computeActualDamage(damage, target)
-            target.receiveDamage(actualDamage)
+        if (target == this || isAllyOf(target) || !isTargetInRange(distanceFromTarget)) {
+            return
         }
+
+        val actualDamage = computeActualDamage(damage, target)
+        target.receiveDamage(actualDamage)
     }
 
     private fun isAllyOf(target: Character) = factions.intersect(target.factions).isNotEmpty()
