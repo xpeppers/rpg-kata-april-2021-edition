@@ -87,9 +87,11 @@ class CharacterTest {
         action { attacker.dealDamageTo(target, 100, 20) }.decreasesBy(100) { target.health }
     }
 
+    private val faction = Faction()
+    private val anotherFaction = Faction()
+
     @Test
     fun `a character cannot deal damage to a character of the same faction`() {
-        val faction = Faction()
         attacker.joinFaction(faction)
         target.joinFaction(faction)
 
@@ -98,22 +100,51 @@ class CharacterTest {
 
     @Test
     fun `a character can deal damage to characters of other factions`() {
-        val faction1 = Faction()
-        val faction2 = Faction()
-        attacker.joinFaction(faction1)
-        attacker.joinFaction(faction2)
+        attacker.joinFaction(faction)
+        attacker.joinFaction(anotherFaction)
 
         action { attacker.dealDamageTo(target, 100) }.decreasesBy(100) { target.health }
     }
 
     @Test
     fun `a character cannot deal damage to a character belonging to a shared faction`() {
-        val faction = Faction()
-        val anotherFaction = Faction()
         attacker.joinFaction(faction)
         target.joinFaction(faction)
         target.joinFaction(anotherFaction)
 
         action { attacker.dealDamageTo(target, 100) }.doesNotChange { target.health }
+    }
+
+    @Test
+    fun `a character can heal a character of the same faction`() {
+        target.joinFaction(faction)
+        val healer = Character().apply {
+            joinFaction(faction)
+        }
+
+        attacker.dealDamageTo(target, 150)
+        action { healer.heal(target, 100) }.increasesBy(100) { target.health }
+    }
+
+    @Test
+    fun `a character can heal a character a character belonging to a shared faction`() {
+        target.joinFaction(faction)
+        val healer = Character().apply {
+            joinFaction(faction)
+            joinFaction(anotherFaction)
+        }
+
+        attacker.dealDamageTo(target, 150)
+        action { healer.heal(target, 100) }.increasesBy(100) { target.health }
+    }
+
+    @Test
+    fun `a character cannot heal characters of other factions`() {
+        val healer = Character()
+        target.joinFaction(faction)
+        healer.joinFaction(anotherFaction)
+
+        attacker.dealDamageTo(target, 150)
+        action { healer.heal(target, 100) }.doesNotChange { target.health }
     }
 }

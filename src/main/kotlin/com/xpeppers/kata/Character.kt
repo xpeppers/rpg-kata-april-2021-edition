@@ -29,6 +29,11 @@ class Character(private val level: Int = 1, private val maxAttackRange: Int = 0)
             restoreHealth(healingAmount)
     }
 
+    fun heal(target: Character, healingAmount: Int) {
+        if (isAllyOf(target))
+            target.heal(healingAmount)
+    }
+
     private fun computeActualDamage(damage: Int, target: Character): Int {
         return when {
             target.level - level >= 5 -> damage / 2
