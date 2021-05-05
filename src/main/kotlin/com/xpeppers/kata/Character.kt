@@ -11,6 +11,10 @@ class Character(private val level: Int = 1, private val maxAttackRange: Int = 0)
 
     private var factions = mutableSetOf<Faction>()
 
+    fun dealDamageTo(target: Thing, damage: Int) {
+        target.receiveDamage(damage)
+    }
+
     fun dealDamageTo(target: Character, damage: Int, distanceFromTarget: Int = 0) {
         if (target == this || isAllyOf(target) || !isTargetInRange(distanceFromTarget)) {
             return

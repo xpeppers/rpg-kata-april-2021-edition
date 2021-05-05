@@ -13,7 +13,7 @@ class CharacterTest {
     }
 
     @Test
-    fun `when damage received exceeds current Health, Health becomes 0 and the character dies`() {
+    fun `when damage received by a character exceeds current Health, Health becomes 0 and the character dies`() {
         attacker.dealDamageTo(target, target.health + 1)
 
         assertThat(target.health).isEqualTo(0)
@@ -146,5 +146,19 @@ class CharacterTest {
 
         attacker.dealDamageTo(target, 150)
         action { healer.heal(target, 100) }.doesNotChange { target.health }
+    }
+
+    @Test
+    fun `a character can deal damage to things`() {
+        val thing = Tree(2000)
+        action { attacker.dealDamageTo(thing, 100) }.decreasesBy(100) { thing.health }
+    }
+
+    @Test
+    fun `when damage received by a thing exceeds current Health, Health becomes 0`() {
+        val thing = Tree(2000)
+        attacker.dealDamageTo(thing, thing.health + 1)
+
+        assertThat(thing.health).isEqualTo(0)
     }
 }
